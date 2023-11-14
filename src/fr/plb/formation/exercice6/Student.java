@@ -17,7 +17,7 @@ public class Student {
     }
 
 
-    public void display() {
+    void display() {
         System.out.println(this.firstname + " " + this.lastname + " -->" + this.mark);
     }
 }
