@@ -2,7 +2,6 @@ package fr.plb.formation.demo.inheritance;
 
 public class Main {
 
-
     public static void main(String[] args) {
         Animal animal1 = new Chien("Golden retriever", 28, 5);
         Animal animal2 = new Loup("Loup noir du Canada", 80, 10);
