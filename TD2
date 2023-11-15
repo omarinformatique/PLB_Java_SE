@@ -1,0 +1,525 @@
+
+**************************************Classe Barman************************************************************
+package fr.plb.formation.TD2;
+
+// Classe représentant un barman, hérite de la classe Humain
+public class Barman extends Humain {
+    private String nomBar;  // Le nom du bar où travaille le barman
+
+    // Constructeur avec nom (nomBar par défaut à "Chez nom") et boissonFavorite par défaut à "vin"
+    public Barman(String nom) {
+        super(nom, "vin");
+        this.nomBar = "Chez " + nom;  // Initialise le nom du bar avec "Chez nom"
+    }
+
+    // Constructeur avec nom, boissonFavorite par défaut à "vin" et nom du bar spécifique au barman
+    public Barman(String nom, String nomBar) {
+        super(nom, "vin");
+        this.nomBar = nomBar;  // Initialise le nom du bar avec la valeur spécifiée
+    }
+
+    // Override de la méthode sePresenter() pour ajouter des détails spécifiques au barman
+    @Override
+    public void sePresenter() {
+        parler("Bonjour, je suis " + quelEstTonNom() + " du bar " + nomBar + ". Coco.");
+    }
+
+    // Méthode pour servir un verre à un humain
+    public void servirVerre(Humain humain) {
+        parler("Voici un verre de " + humain.quelleEstTaBoissonFavorite() + ". Coco.");
+    }
+}
+
+
+**************************************Classe Brigand************************************************************
+package fr.plb.formation.TD2;
+
+// Classe représentant un brigand, hérite de la classe Humain
+public class Brigand extends Humain implements HorsLaLoi {
+    private String look;  // L'apparence du brigand
+    private int nombreDamesEnlevees;  // Le nombre de dames enlevées par le brigand
+    private int recompense;  // La récompense pour la tête du brigand
+    private boolean enPrison;  // Indique si le brigand est en prison
+
+    // Constructeur avec nom et look spécifique au brigand
+    public Brigand(String nom, String look) {
+        super(nom, "tord-boyaux");
+        this.look = look;
+        this.nombreDamesEnlevees = 0;
+        this.recompense = 100; // Valeur par défaut de la récompense
+        this.enPrison = false;
+    }
+
+    // Méthode pour capturer une dame
+    public void capturerDame(Dame dame) {
+        parler("Ah ah ! " + dame.quelEstTonNom() + ", tu es mienne désormais !");
+        nombreDamesEnlevees++;
+    }
+
+    // Méthode pour emprisonner un cowboy
+    public void emprisonner(Cowboy cowboy) {
+        parler("Damned, je suis fait ! " + cowboy.quelEstTonNom() + ", tu m'as eu !");
+        enPrison = true;
+    }
+
+    // Implémentation de la méthode getMiseAPrix() de l'interface HorsLaLoi
+    @Override
+    public int getMiseAPrix() {
+        // Logique pour obtenir la mise à prix d'un brigand
+        // Par exemple, vous pourriez renvoyer une valeur spécifique pour le brigand
+        return 100; // Exemple, remplacez par la valeur appropriée
+    }
+
+    // Implémentation de la méthode kidnappe(Dame dame) de l'interface HorsLaLoi
+    @Override
+    public void kidnappe(Dame dame) {
+        // Logique pour simuler qu'un brigand kidnappe une dame
+        // Par exemple, vous pourriez afficher un message
+        parler("Ah ah ! " + dame.quelEstTonNom() + ", tu es mienne désormais !");
+        nombreDamesEnlevees++;
+    }
+
+    // Implémentation de la méthode estEmprisonne(Cowboy cowboy) de l'interface HorsLaLoi
+    @Override
+    public void estEmprisonne(Cowboy cowboy) {
+        // Logique pour simuler qu'un brigand est emprisonné par un cowboy
+        // Par exemple, vous pourriez afficher un message
+        parler("Damned, je suis fait ! " + cowboy.quelEstTonNom() + ", tu m'as eu !");
+        enPrison = true;
+    }
+
+    // Méthode pour obtenir la récompense du brigand
+    public int getRecompense() {
+        return recompense;
+    }
+
+    // Override de la méthode sePresenter() pour ajouter des détails spécifiques au brigand
+    @Override
+    public void sePresenter() {
+        super.sePresenter();
+        parler("J'ai l'air " + look + " et j'ai déjà kidnappé " + nombreDamesEnlevees + " dames !");
+        parler("Ma tête est mise à prix à " + recompense + "$ !");
+    }
+}
+
+
+
+**************************************Classe Cowboy************************************************************
+package fr.plb.formation.TD2;
+
+// Classe représentant un cowboy, hérite de la classe Humain
+public class Cowboy extends Humain implements HorsLaLoi, VisagePale {
+    private String adjectif;  // L'adjectif spécifique au cowboy
+    private int popularite;  // La popularité du cowboy
+    private boolean enPrison;  // Indique si le cowboy est en prison
+
+    // Constructeur avec nom et adjectif spécifique au cowboy
+    public Cowboy(String nom, String adjectif) {
+        super(nom, "whisky");
+        this.adjectif = adjectif;
+        this.popularite = 0;
+    }
+
+    // Méthode pour libérer une dame
+    public void libererDame(Dame dame) {
+        parler("Je libère la dame " + dame.quelEstTonNom() + ". Yeehaw!");
+        popularite++;
+    }
+
+    // Méthode pour tirer sur un brigand
+    public void tirer(Brigand brigand) {
+        parler("Le " + adjectif + " " + quelEstTonNom() + " tire sur " + brigand.quelEstTonNom() + ". PAN !");
+    }
+
+    // Implémentation de la méthode getMiseAPrix() de l'interface HorsLaLoi
+    @Override
+    public int getMiseAPrix() {
+        // Logique pour obtenir la mise à prix d'un cowboy
+        return 0; // Exemple, remplacez par la valeur appropriée
+    }
+
+    // Implémentation de la méthode kidnappe(Dame dame) de l'interface HorsLaLoi
+    @Override
+    public void kidnappe(Dame dame) {
+        // Logique pour que le cowboy kidnappe une dame
+        // Par exemple, vous pourriez afficher un message
+        parler("Yeehaw ! " + dame.quelEstTonNom() + ", tu es kidnappée par le cowboy " + quelEstTonNom() + " !");
+    }
+
+    // Implémentation de la méthode estEmprisonne(Cowboy cowboy) de l'interface HorsLaLoi
+    @Override
+    public void estEmprisonne(Cowboy cowboy) {
+        // Logique pour simuler qu'un cowboy est emprisonné
+        // Par exemple, vous pourriez afficher un message
+        parler("Damned, je suis fait ! " + cowboy.quelEstTonNom() + ", tu m'as eu !");
+        enPrison = true;
+    }
+
+    // Override de la méthode sePresenter() pour ajouter des détails spécifiques au cowboy
+    @Override
+    public void sePresenter() {
+        super.sePresenter();
+        parler("Je suis un cowboy " + adjectif + " avec une popularité de " + popularite + ".");
+    }
+
+    // Implémentation de la méthode scalp() de l'interface VisagePale
+    @Override
+    public void scalp() {
+        parler("Aïe ma tête ! Ugh !");
+        // Code pour l'action de scalper un visage pâle
+    }
+}
+
+
+
+**************************************Classe Dame************************************************************
+
+package fr.plb.formation.TD2;
+
+// Classe représentant une dame, hérite de la classe Humain
+public class Dame extends Humain {
+    private String couleurRobe;  // La couleur de la robe de la dame
+    private boolean libre;  // Indique si la dame est libre
+
+    // Constructeur avec nom et couleur de la robe spécifique à la dame
+    public Dame(String nom, String couleurRobe) {
+        super(nom, "lait");
+        this.couleurRobe = couleurRobe;
+        this.libre = true;
+    }
+
+    // Méthode pour vérifier si la dame est libre
+    public boolean estLibre() {
+        return libre;
+    }
+
+    // Méthode pour se faire kidnapper par un brigand
+    public void seFaireKidnapper(Brigand brigand) {
+        parler("Ah ! Je suis enlevée par " + brigand.quelEstTonNom() + "! Au secours !");
+        libre = false;
+    }
+
+    // Méthode pour se faire libérer par un cowboy
+    public void seFaireLiberer(Cowboy cowboy) {
+        parler("Merci, " + cowboy.quelEstTonNom() + ", pour m'avoir libérée !");
+        libre = true;
+    }
+
+    // Méthode pour changer la couleur de la robe
+    public void changerRobe(String nouvelleCouleur) {
+        parler("Regardez ma nouvelle robe " + nouvelleCouleur + " !");
+        couleurRobe = nouvelleCouleur;
+    }
+
+    // Override de la méthode sePresenter() pour ajouter des détails spécifiques à la dame
+    @Override
+    public void sePresenter() {
+        super.sePresenter();
+        parler("Je porte une robe de couleur " + couleurRobe + ".");
+    }
+}
+
+**************************************Classe DameBrigand************************************************************
+
+package fr.plb.formation.TD2;
+
+// Classe représentant une dame brigand, hérite de la classe Dame et implémente l'interface HorsLaLoi
+public class DameBrigand extends Dame implements HorsLaLoi {
+    // Constructeur avec nom et couleur de la robe spécifique à la dame brigand
+    public DameBrigand(String nom, String couleurRobe) {
+        super(nom, couleurRobe);
+    }
+
+    // Implémentation des méthodes de l'interface HorsLaLoi
+
+    // Méthode appelée lorsqu'une dame brigand est emprisonnée par un cowboy
+    @Override
+    public void estEmprisonne(Cowboy c) {
+        parler("Merci, " + c.quelEstTonNom() + ", pour m'avoir arrêtée !");
+        // Utilisez la méthode quelEstTonNom() pour obtenir le nom
+        if (estLibre()) {
+            parler("Je suis maintenant libre !");
+        }
+    }
+
+    // Méthode appelée lorsqu'une dame brigand kidnappe une autre dame
+    @Override
+    public void kidnappe(Dame dame) {
+        parler("Ah ah ! " + dame.quelEstTonNom() + ", tu es mienne désormais !");
+        // Utilisez la méthode quelEstTonNom() pour obtenir le nom
+        if (!estLibre()) {
+            parler("Je suis maintenant kidnappée !");
+        }
+    }
+
+    // Méthode renvoyant la mise à prix pour une dame brigand
+    @Override
+    public int getMiseAPrix() {
+        return 50; // Mise à prix pour une dame brigand
+    }
+
+    // Méthode renvoyant le nom de la dame brigand
+    @Override
+    public String quelEstTonNom() {
+        return super.quelEstTonNom();  // Utilisez la méthode de la classe parente pour obtenir le nom
+    }
+}
+
+**************************************Classe Humain************************************************************
+package fr.plb.formation.TD2;
+
+// Classe représentant un être humain
+public class Humain {
+    private String nom;  // Le nom de l'humain
+    private String boissonFavorite;  // La boisson favorite de l'humain
+
+    // Constructeur avec nom (boissonFavorite par défaut à "eau")
+    public Humain(String nom) {
+        this.nom = nom;
+        this.boissonFavorite = "eau";
+    }
+
+    // Constructeur avec nom et boissonFavorite spécifique
+    public Humain(String nom, String boissonFavorite) {
+        this.nom = nom;
+        this.boissonFavorite = boissonFavorite;
+    }
+
+    // Méthode pour obtenir le nom de l'humain
+    public String quelEstTonNom() {
+        return nom;
+    }
+
+    // Méthode pour obtenir la boisson favorite de l'humain
+    public String quelleEstTaBoissonFavorite() {
+        return boissonFavorite;
+    }
+
+    // Méthode pour obtenir le nom de l'humain (alternative à quelEstTonNom)
+    public String getNom() {
+        return nom;
+    }
+
+    // Méthode pour faire parler l'humain avec un texte donné
+    public void parler(String texte) {
+        System.out.println("(" + nom + ") - " + texte);
+    }
+
+    // Méthode pour que l'humain se présente
+    public void sePresenter() {
+        parler("Bonjour, je m'appelle " + nom + " et ma boisson favorite est " + boissonFavorite + ".");
+    }
+
+    // Méthode pour simuler que l'humain boit
+    public void boire() {
+        parler("Ah ! un bon verre de " + boissonFavorite + " ! GLOUPS !");
+    }
+}
+
+
+**************************************Classe Indien************************************************************
+package fr.plb.formation.TD2;
+
+// Classe représentant un indien, hérite de la classe Humain et implémente l'interface VisagePale
+public class Indien extends Humain implements VisagePale {
+    private int nombrePlumes;
+    private String totem;
+
+    // Constructeur avec nom
+    public Indien(String nom) {
+        super(nom, "jus de racine");
+        this.nombrePlumes = 0;
+        this.totem = "Coyote";
+    }
+
+    // Override de la méthode sePresenter() pour ajouter des détails spécifiques à l'indien
+    @Override
+    public void sePresenter() {
+        super.sePresenter();
+        parler("Je suis un indien avec " + nombrePlumes + " plumes et mon totem est " + totem + ". Ugh !");
+    }
+
+    // Méthode pour scalper un visage pâle
+    @Override
+    public void scalp() {
+        parler("Aïe ma tête ! Ugh !");
+        nombrePlumes++;
+    }
+}
+
+
+
+**************************************Classe Ripoux************************************************************
+
+package fr.plb.formation.TD2;
+
+// Classe représentant un ripoux, hérite de la classe Sherif et implémente l'interface HorsLaLoi
+public class Ripoux extends Sherif implements HorsLaLoi {
+    // Constructeur avec nom
+    public Ripoux(String nom) {
+        super(nom);
+    }
+
+    // Implémentation des méthodes de l'interface HorsLaLoi
+    @Override
+    public void estEmprisonne(Cowboy c) {
+        parler("Haha, tu ne peux pas m'emprisonner, " + c.quelEstTonNom() + " !");
+    }
+
+    @Override
+    public void kidnappe(Dame dame) {
+        parler("Je suis un ripoux, je kidnappe qui je veux ! Ah ah !");
+    }
+
+    @Override
+    public int getMiseAPrix() {
+        return 0; // Pas de mise à prix pour un ripoux
+    }
+
+    @Override
+    public String quelEstTonNom() {
+        return getNom();
+    }
+}
+
+
+**************************************Classe Sherif************************************************************
+
+package fr.plb.formation.TD2;
+
+// Classe représentant un shérif, hérite de la classe Cowboy
+public class Sherif extends Cowboy {
+    private boolean honnete;
+
+    // Constructeur avec nom (honnête par défaut)
+    public Sherif(String nom) {
+        super(nom, "vaillant");
+        this.honnete = true;
+    }
+
+    // Méthode pour coffrer un brigand
+    public void coffrerBrigand(Brigand brigand) {
+        parler("Au nom de la loi, je vous arrête, " + brigand.quelEstTonNom() + " !");
+    }
+
+    // Méthode pour rechercher un brigand
+    public void rechercherBrigand(Brigand brigand) {
+        parler("OYEZ OYEZ BRAVE GENS !! " + (2 * brigand.getRecompense()) + " $ à qui arrêtera " + brigand.quelEstTonNom() + ", mort ou vif !!");
+    }
+
+    // Override de la méthode sePresenter() pour ajouter des détails spécifiques au shérif
+    @Override
+    public void sePresenter() {
+        parler("Je suis le shérif " + quelEstTonNom() + ", un vaillant défenseur de la loi.");
+    }
+}
+
+**************************************Interface HorsLaLoi************************************************************
+package fr.plb.formation.TD2;
+
+// Interface HorsLaLoi définissant le comportement d'un hors-la-loi
+public interface HorsLaLoi {
+    // Méthode appelée lorsqu'un hors-la-loi est emprisonné par un cowboy
+    void estEmprisonne(Cowboy c);
+
+    // Méthode appelée lorsqu'un hors-la-loi kidnappe une dame
+    void kidnappe(Dame dame);
+
+    // Méthode pour obtenir la mise à prix du hors-la-loi
+    int getMiseAPrix();
+
+    // Méthode pour obtenir le nom du hors-la-loi
+    String quelEstTonNom();
+}
+
+**************************************Interface VisagePale************************************************************
+
+package fr.plb.formation.TD2;
+
+// Interface VisagePale pour définir le comportement d'un visage pâle
+public interface VisagePale {
+    // Méthode pour effectuer l'action de scalper un visage pâle
+    void scalp();
+}
+
+**************************************Classe Histoire************************************************************
+package fr.plb.formation.TD2;
+
+// Classe avec la méthode main pour exécuter le scénario
+public class Histoire {
+    public static void main(String[] args) {
+        // Testez les classes ici
+
+        // Création d'un Humain (John)
+        Humain humain = new Humain("John");
+        humain.sePresenter(); // John se présente
+        humain.boire(); // John boit quelque chose
+        humain.parler("Hello, comment ça va ?"); // John parle
+
+        System.out.println();
+
+        // Création d'une Dame (Alice)
+        Dame dame = new Dame("Alice", "rouge");
+        dame.sePresenter(); // Alice se présente
+        dame.boire(); // Alice boit quelque chose
+        dame.changerRobe("bleue"); // Alice change la couleur de sa robe
+
+        System.out.println();
+
+        // Création d'un Brigand (Bob)
+        Brigand brigand = new Brigand("Bob", "méchant");
+        brigand.sePresenter(); // Bob se présente
+        brigand.boire(); // Bob boit quelque chose
+        brigand.capturerDame(dame); // Bob capture la dame Alice
+
+        System.out.println();
+
+        // Création d'un Cowboy (Clint)
+        Cowboy cowboy = new Cowboy("Clint", "brave");
+        cowboy.sePresenter(); // Clint se présente
+        cowboy.boire(); // Clint boit quelque chose
+        cowboy.libererDame(dame); // Clint libère la dame Alice
+        cowboy.tirer(brigand); // Clint tire sur le brigand Bob
+
+        System.out.println();
+
+        // Création d'un Barman (Joe)
+        Barman barman = new Barman("Joe");
+        barman.sePresenter(); // Joe se présente en tant que barman
+        barman.servirVerre(humain); // Joe sert un verre à John
+
+        System.out.println();
+
+        // Création d'un Shérif (Wyatt)
+        Sherif sherif = new Sherif("Wyatt");
+        sherif.sePresenter(); // Wyatt se présente en tant que shérif
+        sherif.coffrerBrigand(brigand); // Wyatt arrête le brigand Bob
+        sherif.rechercherBrigand(brigand); // Wyatt lance un appel à la recherche du brigand
+
+        System.out.println();
+
+        // Création d'un Ripoux (Jack)
+        Ripoux ripoux = new Ripoux("Jack");
+        ripoux.sePresenter(); // Jack se présente en tant que ripoux
+        ripoux.boire(); // Jack boit quelque chose
+        ripoux.kidnappe(dame); // Jack kidnappe la dame Alice
+
+        System.out.println();
+
+        // Création d'une DameBrigand (Eva)
+        DameBrigand dameBrigand = new DameBrigand("Eva", "noir");
+        dameBrigand.sePresenter(); // Eva se présente
+        dameBrigand.boire(); // Eva boit quelque chose
+        dameBrigand.kidnappe(dame); // Eva kidnappe la dame Alice
+
+        System.out.println();
+
+        // Création d'un Indien (Tatanka)
+        Indien indien = new Indien("Tatanka");
+        indien.sePresenter(); // Tatanka se présente
+        indien.boire(); // Tatanka boit quelque chose
+        indien.scalp(); // Tatanka scalpe
+    }
+}
+
+****************************************************************************************************************************
